@@ -1,6 +1,5 @@
 import NavBar from "./components/NavBar";
 import "./globals.css";
-import { Inter } from "next/font/google";
 
 export const metadata = {
   title: "Create Next App",
@@ -12,7 +11,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="w-screen h-screen bg-slate-500 flex flex-col">
         <NavBar />
-        <div className="p-10 w-full h-full">{children}</div>
+        <div className="w-full h-full p-10">
+          <div className="w-full h-full bg-white rounded">{children}</div>
+        </div>
       </body>
     </html>
   );
