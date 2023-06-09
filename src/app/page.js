@@ -1,9 +1,10 @@
+export const metadata = {
+  title: "Home Page",
+};
+
 export default function Home() {
   return (
     <main className="w-full h-full flex flex-col gap-2">
-      <head>
-        <title>Home Page</title>
-      </head>
       <h2 className="w-full text-4xl flex justify-center underline mt-4 ">
         Testing the new framework
       </h2>

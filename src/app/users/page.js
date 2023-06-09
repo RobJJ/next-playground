@@ -18,7 +18,12 @@ import { loadUsers } from "../lib/users";
 //       data,
 //     },
 //   };
+
 // }
+
+export const metadata = {
+  title: "User Page",
+};
 
 export default async function UsersPage() {
   // const { data: usersData = [], isLoading, isError } = useQuery(["userData"], functionHere);
@@ -29,9 +34,6 @@ export default async function UsersPage() {
 
   return (
     <div className="w-full h-full p-1 flex flex-col gap-2">
-      <head>
-        <title>Users Page</title>
-      </head>
       <h1 className="w-full bg-blue-100 text-2xl font-bold text-center underline">
         A component rendering a list of cards containing user information
         fetched from JSON plaholder
