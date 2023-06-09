@@ -17,9 +17,6 @@ import QueryProvider from "./provider";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Head>
-        <title>testzzz</title>
-      </Head>
       <QueryProvider>
         <body className="w-screen h-screen bg-slate-500 flex flex-col">
           <NavBar />
