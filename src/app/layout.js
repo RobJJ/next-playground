@@ -1,10 +1,13 @@
-"use client";
+// "use client";
 
+import Head from "next/head";
 import NavBar from "./components/NavBar";
 import "./globals.css";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-const queryClient = new QueryClient();
+import QueryProvider from "./provider";
+
+// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// const queryClient = new QueryClient();
 
 // export const metadata = {
 //   title: "Create Next App",
@@ -14,14 +17,17 @@ const queryClient = new QueryClient();
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="w-screen h-screen bg-slate-500 flex flex-col">
-        <QueryClientProvider client={queryClient}>
+      <Head>
+        <title>testzzz</title>
+      </Head>
+      <QueryProvider>
+        <body className="w-screen h-screen bg-slate-500 flex flex-col">
           <NavBar />
           <div className="w-full h-full p-10">
             <div className="w-full h-full bg-white rounded">{children}</div>
           </div>
-        </QueryClientProvider>
-      </body>
+        </body>
+      </QueryProvider>
     </html>
   );
 }
