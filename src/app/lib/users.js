@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+
 export async function loadUsers() {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
   if (!res.ok) {
@@ -7,3 +9,18 @@ export async function loadUsers() {
   const data = await res.json();
   return data;
 }
+
+// this function name needs capital letter to mark as component?
+// export async function LoadUsersWithQuery() {
+//   const {
+//     data: usersData = [],
+//     isLoading,
+//     isError,
+//   } = useQuery(["userData"], async () =>
+//     fetch("https://jsonplaceholder.typicode.com/users").then((res) =>
+//       res.json()
+//     )
+//   );
+
+//   return { usersData, isLoading, isError };
+// }

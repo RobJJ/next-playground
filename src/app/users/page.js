@@ -12,7 +12,13 @@ export const metadata = {
 export default async function UsersPage() {
   // const { data: usersData = [], isLoading, isError } = useQuery(["userData"], functionHere);
   const data = await loadUsers();
-  // console.log("[DATA] : ", data);
+  // const {
+  //   data: usersData = [],
+  //   isLoading,
+  //   isError,
+  // } = useQuery(["userData"], loadUsers);
+  // // console.log("[DATA] : ", data);
+  // if (isLoading) return <div>Loading</div>;
 
   return (
     <section className="w-full h-full  flex flex-wrap p-5 gap-5 items-center justify-center">
