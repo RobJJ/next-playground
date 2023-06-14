@@ -6,6 +6,7 @@ const NavBar = () => {
       <Link href={"/"}>Home</Link>
       <Link href={"/users"}>Users</Link>
       <Link href={"/photos"}>Photos</Link>
+      <Link href={"/display"}>Display</Link>
     </div>
   );
 };
