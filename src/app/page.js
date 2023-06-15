@@ -1,8 +1,12 @@
+import { getTestApiData } from "./lib/test";
+
 export const metadata = {
   title: "Home Page",
 };
 
-export default function Home() {
+export default async function Home() {
+  const testData = await getTestApiData();
+
   return (
     <main className="w-full h-full flex flex-col gap-2">
       <h2 className="w-full text-4xl flex justify-center underline mt-4 ">
@@ -21,6 +25,8 @@ export default function Home() {
             SSR, ISR, CSR, RSC
           </li>
           <li>API Routes</li>
+          <li>my key just created is :: {process.env.customKey}</li>
+          <li>My fetched api :: {JSON.stringify(testData)}</li>
         </ul>
       </section>
     </main>

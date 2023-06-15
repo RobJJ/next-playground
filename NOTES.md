@@ -17,3 +17,7 @@ https://nextjs.org/docs/app/building-your-application/data-fetching
 When you have a dynamic route, the Component gets access to searchParams, and params...
 Both are objects and get information from the route name and the search url params...
 You can use this information in your component for fetching or displaying your data dynamically!
+
+### ENV vars
+
+Add them to the next.config.js file as a property under env {}
