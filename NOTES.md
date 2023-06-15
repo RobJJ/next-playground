@@ -21,3 +21,7 @@ You can use this information in your component for fetching or displaying your d
 ### ENV vars
 
 Add them to the next.config.js file as a property under env {}
+
+### Fetching Data
+
+You can just fetch your data straight from inside a component because they are server components -- using the api route functionality allows other people to interact with your API for example! You should not be requesting your own API routes

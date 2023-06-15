@@ -1,11 +1,12 @@
-import { getTestApiData } from "./lib/test";
+// "use client";
+import { getTodosApiData } from "./lib/todos";
 
 export const metadata = {
   title: "Home Page",
 };
 
 export default async function Home() {
-  const testData = await getTestApiData();
+  const testData = await getTodosApiData();
 
   return (
     <main className="w-full h-full flex flex-col gap-2">
