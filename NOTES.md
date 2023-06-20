@@ -51,3 +51,16 @@ import the fonts using the next/font/google import and grab the font you want.. 
 ### reading files with node file system
 
 Our components are server components by default now which means we can use the node environment to read files from the system which enables us to reads markdown files and display them on our page!
+
+### MetaData
+
+Can set this property on the layout page to share between all pages nested within.. but you can also set on a specific page which will overwrite...
+You can also add a template to the layout page so that each page can be appended by some default string... eg About | GED,, or Release Notes | GED
+@lexture 42 ->
+Can do the same for dynamic routes too,, using generateMetadata function which runs before the meta data is set.. it gets the params prop and you can use that to get the info you need!
+
+## Client side rendering
+
+using the "use client" statement at the top of page signals to next that it is a client component.. NB: when you opt into this client component,, all the children of that component also become client components!! remember this when structuring the page
+Give thought to at what level you should use the client componennt...
+General practice.. put client components at the leaves of your component tree!
