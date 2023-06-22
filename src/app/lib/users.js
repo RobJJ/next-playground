@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 export async function loadUsers(id) {
-  console.log("id from loadUsers : ", id);
+  // console.log("id from loadUsers : ", id);
   const res = await fetch(
     `https://jsonplaceholder.typicode.com/users/${id ? id : ""}`
   );

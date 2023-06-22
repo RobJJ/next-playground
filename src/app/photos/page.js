@@ -4,7 +4,7 @@ export const metadata = {
   title: "Photos Page",
 };
 
-const PhotosPage = async () => {
+export default async function PhotosPage() {
   // neat way of fetching data straight from the source
   // const photosArray = await fetch("https://jsonplaceholder.typicode.com/photos")
   //   .then((res) => res.json())
@@ -35,6 +35,4 @@ const PhotosPage = async () => {
       </div>
     </div>
   );
-};
-
-export default PhotosPage;
+}
