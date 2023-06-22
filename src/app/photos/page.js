@@ -15,9 +15,10 @@ export default async function PhotosPage() {
   const url = `https://api.unsplash.com/photos/random?count=${10}&client_id=${
     process.env.PHOTO_ACCESS_KEY
   }`;
-  const photosArray = await fetch(`${url}`)
-    .then((res) => res.json())
-    .toArray();
+  const data = await fetch(`${url}`);
+  const photosArray = await data.json();
+
+  console.log(photosArray);
 
   return (
     <div className="w-full h-full flex flex-col gap-2 p-2 text-center overflow-auto">

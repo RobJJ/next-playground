@@ -8,8 +8,8 @@ export const metadata = {
 
 export default async function Home() {
   const testData = await getTodosApiData();
-  const districtData = await getDistricts();
-  console.log(districtData[0]);
+  // const districtData = await getDistricts();
+  // console.log(districtData[0]);
 
   return (
     <main className="w-full h-full flex flex-col gap-2">
