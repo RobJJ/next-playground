@@ -1,4 +1,5 @@
 // "use client";
+import getDistricts from "./lib/districts";
 import { getTodosApiData } from "./lib/todos";
 
 export const metadata = {
@@ -7,6 +8,8 @@ export const metadata = {
 
 export default async function Home() {
   const testData = await getTodosApiData();
+  const districtData = await getDistricts();
+  console.log(districtData[0]);
 
   return (
     <main className="w-full h-full flex flex-col gap-2">
