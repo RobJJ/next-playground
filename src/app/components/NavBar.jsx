@@ -7,6 +7,7 @@ const NavBar = () => {
       <Link href={"/users"}>Users</Link>
       <Link href={"/test"}>Test</Link>
       <Link href={"/display"}>Display</Link>
+      <Link href={"/leaflet"}>Leaflet Map</Link>
     </div>
   );
 };

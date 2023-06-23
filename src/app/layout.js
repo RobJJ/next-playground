@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <QueryProvider>
         <body className="w-screen h-screen flex flex-col overflow-auto scrollbar-none">
           <NavBar />
-          <div className="w-full h-full p-10 bg-slate-300">
+          <div className="w-full h-full p-10 bg-slate-300 flex">
             <div className="w-full h-full bg-white rounded flex overflow-auto">
               {children}
             </div>
