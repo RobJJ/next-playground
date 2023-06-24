@@ -19,16 +19,6 @@ function getScoreForDistrict(districtName) {
   // return chosenDistricts.ECON_SCORE;
 }
 
-const layerStyle = {
-  id: "data",
-  type: "fill",
-  paint: {
-    "fill-outline-color": "#000",
-    "fill-color": "#ffffbf",
-    "fill-opacity": 0.4,
-  },
-};
-
 // const lineStyle = {
 //   id: "districts",
 //   source: "test-districts",
@@ -43,7 +33,18 @@ const DisplayPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [clickLocation, setClickLocation] = useState(null);
   const [clickedData, setClickedData] = useState(null);
-  // const [score, setScore] = useState(null);
+  const [score, setScore] = useState(null);
+
+  const layerStyle = {
+    id: "data",
+    type: "fill",
+    paint: {
+      "fill-outline-color": "#000",
+      // "fill-color": "#ffffbf",
+      "fill-color": `${score >= 50 ? "#ffffbf" : "#fff323"}`,
+      "fill-opacity": 0.4,
+    },
+  };
 
   function handleClick(event) {
     // first check if this is true... this will only be true if popup just closed because you clicked on map
@@ -54,7 +55,7 @@ const DisplayPage = () => {
     console.log("data::", clickedData);
 
     const features = event.target.queryRenderedFeatures(event.point);
-    getScoreForDistrict(features[0].properties.shapeName);
+    setScore(getScoreForDistrict(features[0].properties.shapeName));
 
     setShowPopup(true);
     setClickLocation(event.lngLat);

@@ -21,7 +21,7 @@ export default async function UsersPage() {
   // if (isLoading) return <div>Loading</div>;
 
   return (
-    <section className="w-full h-full  flex flex-wrap p-5 gap-5 items-center justify-center">
+    <section className="w-full h-full bg-blue-100 flex flex-wrap p-5 gap-5 items-center justify-center">
       {data.map((user) => {
         return <UserCard key={user.id} user={user} />;
       })}

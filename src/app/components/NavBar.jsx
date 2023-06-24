@@ -8,6 +8,7 @@ const NavBar = () => {
       <Link href={"/test"}>Test</Link>
       <Link href={"/display"}>Display</Link>
       <Link href={"/leaflet"}>Leaflet Map</Link>
+      <Link href={"/dashboard"}>Dashboard</Link>
     </div>
   );
 };
