@@ -1,4 +1,4 @@
-const dataVietnam = [
+export const dataVietnam = [
   {
     REGION: "Mekong River Delta",
     PROVINCE: "An Giang",

@@ -8,8 +8,15 @@ import { dataVietnam } from "../testData/dataVietnam";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useState } from "react";
 
-function getColor(score) {
+function getScoreForDistrict(districtName) {
   //ECON_SCORE
+
+  const chosenDistricts = dataVietnam.find(
+    (obj) => obj.DISTRICT === districtName && obj.YEAR === 2018
+  );
+  // console.log("name passed into function::", districtName);
+  console.log("tqweqwe", chosenDistricts);
+  // return chosenDistricts.ECON_SCORE;
 }
 
 const layerStyle = {
@@ -36,6 +43,7 @@ const DisplayPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [clickLocation, setClickLocation] = useState(null);
   const [clickedData, setClickedData] = useState(null);
+  // const [score, setScore] = useState(null);
 
   function handleClick(event) {
     // first check if this is true... this will only be true if popup just closed because you clicked on map
@@ -46,10 +54,14 @@ const DisplayPage = () => {
     console.log("data::", clickedData);
 
     const features = event.target.queryRenderedFeatures(event.point);
+    getScoreForDistrict(features[0].properties.shapeName);
+
     setShowPopup(true);
     setClickLocation(event.lngLat);
     setClickedData(features[0]);
+    // setScore(getScoreForDistrict(features[0].properties.shapeName));
     console.log("features :: ", features);
+    // console.log()
     // etHoveredFeature(features.length ? features[0] : null);
   }
 
@@ -75,6 +87,7 @@ const DisplayPage = () => {
           {/*<Layer {...lineStyle} />*/}
           <Layer {...layerStyle} />
         </Source>
+
         {showPopup && (
           <Popup
             longitude={clickLocation.lng}
@@ -93,6 +106,7 @@ const DisplayPage = () => {
                 ? "No data available"
                 : clickedData.properties.shapeName}
             </div>
+            {/*<div>{score ? score : "no score"}</div>*/}
           </Popup>
         )}
       </ReactMapGL>
