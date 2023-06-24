@@ -3,6 +3,7 @@ import Map, { Source, Layer } from "react-map-gl";
 
 import { vietnamLevelOne } from "../testData/geoVietnamProvince";
 import { geoVietnamDistricts } from "../testData/geoVietnamDistrict";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const layerStyle = {
   id: "data",
