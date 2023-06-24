@@ -1,9 +1,11 @@
 "use client";
-import Map, { Source, Layer } from "react-map-gl";
+import ReactMapGL, { Source, Layer, Popup } from "react-map-gl";
 
 import { vietnamLevelOne } from "../testData/geoVietnamProvince";
 import { geoVietnamDistricts } from "../testData/geoVietnamDistrict";
+// import add here
 import "mapbox-gl/dist/mapbox-gl.css";
+import { useState } from "react";
 
 const layerStyle = {
   id: "data",
@@ -26,9 +28,9 @@ const layerStyle = {
   //   "fill-opacity": 0.8,
   // },
   paint: {
-    "fill-outline-color": "#0040c8",
-    "fill-color": "#fff",
-    "fill-opacity": 0,
+    // "fill-outline-color": "#ffffbf",
+    "fill-color": "#ffffbf",
+    "fill-opacity": 0.3,
   },
 };
 
@@ -43,13 +45,29 @@ const lineStyle = {
 };
 // potentially get info sent down to this component from a parent, giving info on things taken from server component - eg, mapbox token, long and lat cord, mapStyle key from your custom profile etc
 const DisplayPage = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [clickLocation, setClickLocation] = useState(null);
+  const [clickedData, setClickedData] = useState(null);
+
   function handleClick(event) {
-    console.log("event??", event);
+    // first check if this is true... meaning the map was clicked, avoid dealing with false click for closing outside
+    if (showPopup) return;
+    console.log("click event fired", event);
+    console.log("showPopup", showPopup);
+    console.log("clickLocation", clickLocation);
+
+    const features = event.target.queryRenderedFeatures(event.point);
+    setShowPopup(true);
+    setClickLocation(event.lngLat);
+    setClickedData(features[0]);
+    // console.log("features :: ", features);
+    // etHoveredFeature(features.length ? features[0] : null);
   }
-  // onMouseMove={onHover}
+
   return (
-    <div className="w-full h-full p-5">
-      <Map
+    <div className="w-full h-full p-5 relative">
+      <ReactMapGL
+        // onHover={handleHover}
         onClick={handleClick}
         mapboxAccessToken={
           "pk.eyJ1Ijoicm9iamoiLCJhIjoiY2xjZTVva3NhMGQydzN3bGx5cnEwd2I1eSJ9.X-ErXEB4RZMQmGZvsaMGNA"
@@ -66,10 +84,29 @@ const DisplayPage = () => {
       >
         <Source type="geojson" data={geoVietnamDistricts}>
           <Layer {...lineStyle} />
+          <Layer {...layerStyle} />
         </Source>
-      </Map>
+        {showPopup && (
+          <Popup
+            longitude={clickLocation.lng}
+            latitude={clickLocation.lat}
+            anchor="bottom"
+            onClose={() => {
+              setShowPopup(false);
+              console.log("this shit was fired!");
+            }}
+            captureClick={true}
+            // closeOnClick={true}
+            // closeOnMove={true} ----> this will close popup on movement
+          >
+            Here
+          </Popup>
+        )}
+      </ReactMapGL>
     </div>
   );
 };
 
 export default DisplayPage;
+
+// event.point gives coordinates of your click event {x,y}
