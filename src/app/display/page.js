@@ -3,46 +3,34 @@ import ReactMapGL, { Source, Layer, Popup } from "react-map-gl";
 
 import { vietnamLevelOne } from "../testData/geoVietnamProvince";
 import { geoVietnamDistricts } from "../testData/geoVietnamDistrict";
+import { dataVietnam } from "../testData/dataVietnam";
 // import add here
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useState } from "react";
 
+function getColor(score) {
+  //ECON_SCORE
+}
+
 const layerStyle = {
   id: "data",
   type: "fill",
-  // paint: {
-  //   "fill-color": {
-  //     property: "percentile",
-  //     stops: [
-  //       [0, "#3288bd"],
-  //       [1, "#66c2a5"],
-  //       [2, "#abdda4"],
-  //       [3, "#e6f598"],
-  //       [4, "#ffffbf"],
-  //       [5, "#fee08b"],
-  //       [6, "#fdae61"],
-  //       [7, "#f46d43"],
-  //       [8, "#d53e4f"],
-  //     ],
-  //   },
-  //   "fill-opacity": 0.8,
-  // },
   paint: {
-    // "fill-outline-color": "#ffffbf",
+    "fill-outline-color": "#000",
     "fill-color": "#ffffbf",
-    "fill-opacity": 0.3,
+    "fill-opacity": 0.4,
   },
 };
 
-const lineStyle = {
-  id: "districts",
-  source: "test-districts",
-  type: "line",
-  paint: {
-    "line-width": 1,
-    "line-color": "#0080ef",
-  },
-};
+// const lineStyle = {
+//   id: "districts",
+//   source: "test-districts",
+//   type: "line",
+//   paint: {
+//     "line-width": 1,
+//     "line-color": "#0080ef",
+//   },
+// };
 // potentially get info sent down to this component from a parent, giving info on things taken from server component - eg, mapbox token, long and lat cord, mapStyle key from your custom profile etc
 const DisplayPage = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -50,17 +38,18 @@ const DisplayPage = () => {
   const [clickedData, setClickedData] = useState(null);
 
   function handleClick(event) {
-    // first check if this is true... meaning the map was clicked, avoid dealing with false click for closing outside
+    // first check if this is true... this will only be true if popup just closed because you clicked on map
     if (showPopup) return;
     console.log("click event fired", event);
     console.log("showPopup", showPopup);
     console.log("clickLocation", clickLocation);
+    console.log("data::", clickedData);
 
     const features = event.target.queryRenderedFeatures(event.point);
     setShowPopup(true);
     setClickLocation(event.lngLat);
     setClickedData(features[0]);
-    // console.log("features :: ", features);
+    console.log("features :: ", features);
     // etHoveredFeature(features.length ? features[0] : null);
   }
 
@@ -83,7 +72,7 @@ const DisplayPage = () => {
         mapStyle="mapbox://styles/robjj/clce68ufg003614nvvjlep2ke"
       >
         <Source type="geojson" data={geoVietnamDistricts}>
-          <Layer {...lineStyle} />
+          {/*<Layer {...lineStyle} />*/}
           <Layer {...layerStyle} />
         </Source>
         {showPopup && (
@@ -95,11 +84,15 @@ const DisplayPage = () => {
               setShowPopup(false);
               console.log("this shit was fired!");
             }}
-            captureClick={true}
+            // captureClick={true}
             // closeOnClick={true}
             // closeOnMove={true} ----> this will close popup on movement
           >
-            Here
+            <div>
+              {!clickedData || clickedData.layer.id === "water"
+                ? "No data available"
+                : clickedData.properties.shapeName}
+            </div>
           </Popup>
         )}
       </ReactMapGL>
@@ -110,3 +103,5 @@ const DisplayPage = () => {
 export default DisplayPage;
 
 // event.point gives coordinates of your click event {x,y}
+// clickedData.layer.id === "water" .... "No data available"
+// clickedData.layer.id === "data" ... {clickedData.properties.shapeName}
