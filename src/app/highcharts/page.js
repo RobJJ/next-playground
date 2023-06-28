@@ -2,165 +2,257 @@
 
 import React, { useState, useEffect } from "react";
 
+// import { useAtom } from "jotai";
+// import { atomTabs } from "../../../../atoms/atoms";
+
+// import { scatterData } from "../../../test-data/scatter-test-data";
+// import { apolloData } from "../../../test-data/scatter-test-data-apollo";
+
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import highchartsMore from "highcharts/highcharts-more";
 
 highchartsMore(Highcharts);
 
-import { singleDistrictUzb } from "../testData/dataUzbSingleDistrict";
+import { dataUzb } from "../testData/dataUzb";
 
-function sortData(data, type) {
-  const rawData = data.map((district) => {
-    const value = Math.round(district[type]);
-
-    return { YEAR: district.YEAR, value: value };
-    // return arrayToReturn;
+function dataMapping(data) {
+  return data.map(function (point) {
+    return {
+      ...point,
+      id: point.DISTRICT_ID,
+      x: Math.round(point.ENVR_SCORE),
+      y: Math.round(point.ECON_SCORE),
+      // color: colorPanel[point.REGION],
+      color: "#666666",
+    };
   });
-
-  // the need for this function is to make sure the array returned is in the year order for highcharts, 2019,2020,2021,2022
-  function sortByYear(array) {
-    array.sort((a, b) => a.YEAR - b.YEAR);
-    return array.map((obj) => obj.value);
-  }
-  const sortedData = sortByYear(rawData);
-
-  // console.log("sortedData data:", sortedData);
-  return sortedData;
 }
 
-const HighchartsPage = ({ url }) => {
-  // console.log("the district data dude", districtData);
+function drawQuadrants(chart, update) {
+  const xAxis = chart.xAxis[0],
+    yAxis = chart.yAxis[0],
+    x0 = Math.round(
+      Math.min(
+        Math.max(xAxis.toPixels(50), xAxis.left),
+        xAxis.left + xAxis.width
+      )
+    ),
+    y0 = Math.round(
+      Math.min(
+        Math.max(yAxis.toPixels(50), yAxis.top),
+        yAxis.top + yAxis.height
+      )
+    ),
+    rightTo0 = Math.max(yAxis.width - x0 + yAxis.left, 0),
+    leftTo0 = Math.max(x0 - yAxis.left, 0),
+    topTo0 = Math.max(y0 - yAxis.top, 0),
+    bottomTo0 = Math.max(yAxis.height - y0 + yAxis.top, 0);
+
+  if (!chart.quadrants) {
+    chart.quadrants = {
+      I: chart.renderer
+        .rect()
+        .attr({
+          fill: "#D1EAD3",
+        })
+        .add(),
+      II: chart.renderer
+        .rect()
+        .attr({
+          fill: "#FFFFEB",
+        })
+        .add(),
+      III: chart.renderer
+        .rect()
+        .attr({
+          fill: "#FFE4E1",
+        })
+        .add(),
+      IV: chart.renderer
+        .rect()
+        .attr({
+          fill: "#FFFFEB",
+        })
+        .add(),
+    };
+  }
+  chart.quadrants.I[update]({
+    // x: x0 - 2,
+    x: x0,
+    y: xAxis.top,
+    // width: rightTo0 + 2,
+    width: rightTo0,
+    // height: topTo0 + 2
+    height: topTo0,
+  });
+
+  chart.quadrants.II[update]({
+    x: xAxis.left,
+    y: xAxis.top,
+    width: leftTo0,
+    // height: topTo0 + 2
+    height: topTo0,
+  });
+
+  chart.quadrants.III[update]({
+    x: xAxis.left,
+    y: y0,
+    // width: leftTo0 + 2,
+    width: leftTo0,
+    height: bottomTo0,
+  });
+
+  chart.quadrants.IV[update]({
+    x: x0,
+    y: y0,
+    width: rightTo0,
+    height: bottomTo0,
+  });
+}
+
+const ScatterComponent = ({ districtData }) => {
+  //   const navigate = useNavigate();
+  //   const [tabs, setTabs] = useAtom(atomTabs);
+  // const currentAtomValue = useAtomValue(atomTabs);
+
   let chart;
   const [chartOptions, setChartOptions] = useState({
     chart: {
-      type: "line",
+      backgroundColor: "#fff",
+      // plotBackgroundColor: "#F7F7F7",
+      type: "scatter",
+      zoomType: "xy",
+      animation: true,
       events: {
         load: function () {
           chart = this;
+          drawQuadrants(this, "attr");
+        },
+        redraw: function () {
+          drawQuadrants(this, "animate");
         },
       },
     },
     credits: {
       enabled: false,
     },
-    title: {
-      text: `${singleDistrictUzb[0].DISTRICT} - Score over time`,
+    legend: {
+      enabled: false,
     },
     tooltip: {
       // enabled: false,
       borderRadius: 5,
       borderWidth: 1,
       shadow: true,
-
+      useHTML: true,
+      headerFormat: "<table>",
+      pointFormat:
+        '<tr><th colspan="2"><h3><u>{point.DISTRICT}</u></h3></th></tr>' +
+        "<tr><th>Env Score: </th><td>{point.x}</td></tr>" +
+        "<tr><th>Eco Score: </th><td>{point.y}</td></tr>",
       followPointer: true,
       hideDelay: 0,
     },
-    legend: {
-      enabled: true,
-      align: "right",
-      verticalAlign: "middle",
-      layout: "vertical",
+    title: {
+      text: null,
+      // text: _.startCase(`Experimal build: Highchart: ${type} chart`),
+      // text: `Experimental build - HighCharts - Scatter chart`,
     },
     xAxis: {
       title: {
-        text: "<b>Years</b>",
+        text: "<b>Environment Score</b>",
       },
-      categories: [2019, 2020, 2021, 2022],
-      tickInterval: 1,
-      accessibility: {
-        rangeDescription: "Range: 2019 to 2022",
-      },
+      gridLineWidth: 0,
+      min: 0,
+      max: 100,
+      startOnTick: false,
+      endOnTick: true,
+      // maxPadding: 0.2,
+      tickLength: 0,
     },
     yAxis: {
       title: {
-        text: "<b>Scores</b>",
+        text: "<b>Economic Score</b>",
       },
       min: 0,
       max: 100,
+      startOnTick: false,
+      endOnTick: false,
+      maxPadding: 0.2,
+      gridLineWidth: 0,
     },
+    plotOptions: {
+      // general options for all series
+      series: {
+        animation: {
+          // controls animation of paint of points
+          // duration: 2000,
+        },
+        // removes lingering tooltip
+        stickyTracking: false,
+        // Assign a unique color to each point in the series
+        colorByPoint: true,
+        point: {
+          events: {
+            // click: function () {
+            //   // console.log(`Hey fuker, this is the points data... ${this}`);
+            //   let districtExists = tabs.some((tab) => tab.id === this.id);
+            //   if (!districtExists) {
+            //     const newTab = {
+            //       id: this.id,
+            //       name: this.DISTRICT,
+            //       path: `summary/${this.id}`,
+            //     };
+            //     setTabs([...tabs, newTab]);
+            //   }
+            //   navigate(`summary/${this.id}`);
+            // console.log(
+            //   "this log is from scatter click:: current tabs are",
+            //   tabs
+            // );
+          },
+        },
+      },
+    },
+
     series: [
       {
-        name: "Economic",
-        data: sortData(singleDistrictUzb, "ECON_SCORE"),
-        color: "#6554C0",
-      },
-      {
-        name: "Environmental",
-        data: sortData(singleDistrictUzb, "ENVR_SCORE"),
-        color: "#36B37E",
-      },
-      {
-        name: "Deforestation",
-        data: sortData(singleDistrictUzb, "FOREST_SCORE"),
-        color: "#FFAB00",
-      },
-      {
-        name: "Temperature",
-        data: sortData(singleDistrictUzb, "TEMP_SCORE"),
-        color: "#FF303A",
-      },
-      {
-        name: "Air Quality",
-        data: sortData(singleDistrictUzb, "AIR_SCORE"),
-        color: "#00B8D9",
-      },
-    ],
-    plotOptions: {
-      line: {
+        // type: "scatter",
+        // start with points that dont have parent
+        data: dataMapping(dataUzb),
+        // states: {
+        //   hover: {
+        //     enabled: false,
+        //   },
+        // },
+        marker: {
+          radius: 2, // set the marker radius to 5 pixels
+        },
         // dataLabels: {
         //   enabled: true,
+        //   format: "{point.district}",
         // },
-        enableMouseTracking: true,
+
+        cursor: "pointer",
       },
-      series: {
-        stickyTracking: false,
-        // pointStart: 2019,
-      },
-      //   series: {
-      //     states: {
-      //       hover: {
-      //         enabled: false,
-      //       },
-      //     },
-      //   },
-    },
+    ],
   });
 
   //   useEffect(() => {
   //     setChartOptions({
   //       ...chartOptions,
-  //       title: {
-  //         text: `${singleDistrictUzb[0].DISTRICT} - Score over time`,
+  //       series: {
+  //         ...chartOptions.series,
+  //         data: dataMapping(districtData),
   //       },
-
-  //       series: [
-  //         {
-  //           name: "Economic",
-  //           data: sortData(singleDistrictUzb, "ECON_SCORE"),
-  //         },
-  //         {
-  //           name: "Environmental",
-  //           data: sortData(singleDistrictUzb, "ENVR_SCORE"),
-  //         },
-  //         {
-  //           name: "Deforestation",
-  //           data: sortData(singleDistrictUzb, "FOREST_SCORE"),
-  //         },
-  //         {
-  //           name: "Temperature",
-  //           data: sortData(singleDistrictUzb, "TEMP_SCORE"),
-  //         },
-  //         {
-  //           name: "Air Quality",
-  //           data: sortData(singleDistrictUzb, "AIR_SCORE"),
-  //         },
-  //       ],
   //     });
-  //   }, [url]);
+  //   }, [districtData]);
+  //   const [data, setData] = useState(scatterData);
+  // const [data, setData] = useState(districtData);
 
   return (
-    <div className="h-full w-full flex">
+    <div className="h-full w-full flex flex-col">
       <HighchartsReact
         highcharts={Highcharts}
         options={chartOptions}
@@ -170,10 +262,4 @@ const HighchartsPage = ({ url }) => {
   );
 };
 
-export default HighchartsPage;
-
-// <HighchartsReact
-//   highcharts={Highcharts}
-//   options={chartOptions}
-//   containerProps={{ style: { height: "100%", width: "100%" } }}
-// />;
+export default ScatterComponent;
