@@ -9,6 +9,7 @@ const NavBar = () => {
       <Link href={"/display"}>Display</Link>
       <Link href={"/leaflet"}>Leaflet Map</Link>
       <Link href={"/dashboard"}>Dashboard</Link>
+      <Link href={"/highcharts"}>Highcharts</Link>
     </div>
   );
 };
