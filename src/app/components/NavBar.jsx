@@ -10,6 +10,7 @@ const NavBar = () => {
       <Link href={"/leaflet"}>Leaflet Map</Link>
       <Link href={"/dashboard"}>Dashboard</Link>
       <Link href={"/highcharts"}>Highcharts</Link>
+      <Link href={"/table"}>Table</Link>
     </div>
   );
 };

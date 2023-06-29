@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const testData = await getTodosApiData();
+  // const testData = await getTodosApiData();
   // const districtData = await getDistricts();
   // console.log(districtData[0]);
 
@@ -30,7 +30,7 @@ export default async function Home() {
           </li>
           <li>API Routes</li>
           <li>my key just created is :: {process.env.customKey}</li>
-          <li>My fetched api :: {JSON.stringify(testData)}</li>
+          {/* <li>My fetched api :: {JSON.stringify(testData)}</li>*/}
         </ul>
       </section>
     </main>

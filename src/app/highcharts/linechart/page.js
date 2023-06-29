@@ -8,7 +8,7 @@ import highchartsMore from "highcharts/highcharts-more";
 
 highchartsMore(Highcharts);
 
-import { singleDistrictUzb } from "../testData/dataUzbSingleDistrict";
+import { singleDistrictUzb } from "@/app/testData/dataUzbSingleDistrict";
 
 function sortData(data, type) {
   const rawData = data.map((district) => {

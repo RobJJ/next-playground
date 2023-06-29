@@ -7,8 +7,8 @@ export default function HighchartsLayout({ children }) {
         <Link className="bg-red-100 p-1" href={"/highcharts/linechart"}>
           Line chart
         </Link>
-        <Link className="bg-red-100 p-1" href={"/highcharts/barchart"}>
-          Bar chart
+        <Link className="bg-red-100 p-1" href={"/highcharts/scatterchart"}>
+          Scatter chart
         </Link>
       </section>
       <section className="w-full h-full bg-blue-200">{children}</section>
