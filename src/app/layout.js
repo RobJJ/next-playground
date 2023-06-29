@@ -17,10 +17,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <QueryProvider>
-        <body className="w-screen h-screen flex flex-col overflow-auto scrollbar-none">
+        <body className="w-screen h-screen flex flex-col">
           <NavBar />
-          <div className="w-full h-full p-10 bg-slate-300 flex">
-            <div className="w-full h-full bg-white rounded flex overflow-auto">
+          <div className="w-full h-full p-10 bg-slate-300 flex overflow-auto">
+            <div className="w-full h-full bg-white rounded flex">
               {children}
             </div>
           </div>
