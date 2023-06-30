@@ -11,6 +11,8 @@ const NavBar = () => {
       <Link href={"/dashboard"}>Dashboard</Link>
       <Link href={"/highcharts"}>Highcharts</Link>
       <Link href={"/table"}>Table</Link>
+
+      <Link href={"/method"}>Method</Link>
     </div>
   );
 };
