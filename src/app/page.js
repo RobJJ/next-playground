@@ -1,6 +1,12 @@
 // "use client";
-import getDistricts from "./lib/districts";
-import { getTodosApiData } from "./lib/todos";
+import {
+  getDistricts,
+  getDataByYear,
+  getDataBy,
+  getUniqueProvinces,
+  getUniqueYears,
+} from "./lib/districts";
+// import { getTodosApiData } from "./lib/todos";
 
 export const metadata = {
   title: "Home Page",
@@ -8,8 +14,14 @@ export const metadata = {
 
 export default async function Home() {
   // const testData = await getTodosApiData();
-  // const districtData = await getDistricts();
-  // console.log(districtData[0]);
+  // const districtData = await getDataBy({
+  //   YEAR: "2019",
+  //   PROVINCE_ID: "UZB.12_1",
+  //   // DISTRICT_ID: "UZB.12.3_1",
+  //   DISTRICT_ID: null,
+  // });
+  const districtData = await getUniqueYears();
+  console.log(districtData);
 
   return (
     <main className="w-full h-full flex flex-col gap-2">

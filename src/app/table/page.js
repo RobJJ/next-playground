@@ -22,7 +22,6 @@ export default function TablePage() {
           <span className="bg-red-300 w-3/12 border-y-2 border-black flex justify-center items-center gap-2 ">
             <span>Environment</span>
             <span
-              data-tip="This is testing the tooltip fuker"
               className="relative group
               "
             >
