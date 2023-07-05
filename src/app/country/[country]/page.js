@@ -1,5 +1,6 @@
 import Link from "next/link";
 import clientPromise from "../../lib/mongodb";
+import MapLateNight from "@/app/components/MapLateNight";
 
 async function getCountryData(countryName) {
   const client = await clientPromise;
@@ -18,7 +19,11 @@ export default async function CountryPage({ params }) {
   return (
     <div>
       <h2>the country chosen: {params.country}</h2>
-      <p>Fetched data: {dataAboutThisChosenCountry[0].info.name}</p>
+      <p>
+        Fetched data,, add more to the db:{" "}
+        {dataAboutThisChosenCountry[0].info.name}
+      </p>
+      <MapLateNight countryName={params.country} />
       <Link href={"/test"}>Go back</Link>
     </div>
   );

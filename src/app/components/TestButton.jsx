@@ -4,15 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 
-const currentAvailableCountries = [
-  { name: "uzbekistan", id: 1 },
-  { name: "kosovo", id: 2 },
-  { name: "vietnam", id: 3 },
-];
-
 function setCountry() {}
 
-export default function TestButton({ setChosenCountry }) {
+export default function TestButton({ currentAvailableCountries }) {
   const [isOpen, setIsOpen] = useState(false);
   const [country, setCountry] = useState(false);
 
